@@ -1,0 +1,20 @@
+double TimeDifference(int h, int m)
+{
+	time_t now; //настоящее время
+	struct tm Set; //структура времени
+	double s; //количество секунд
+
+	time(&now); //количество секунд с 1 января 1970 года
+
+	localtime_s(&Set, &now); //время в регионе
+
+	Set.tm_hour = h;
+	Set.tm_min = m; //присваеваем время структуре
+	Set.tm_sec = NULL;
+
+	s = (now > mktime(&Set) ?
+		86400 - difftime(now, mktime(&Set)) //дельта настоящего и установленного времени
+		: s = difftime(mktime(&Set), now));
+
+	return s; //возврат дельты
+}
